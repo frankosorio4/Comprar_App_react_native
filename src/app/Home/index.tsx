@@ -8,7 +8,12 @@ export default function Home() {
     <View style={styles.container}>
       <Image style={styles.logo} source={require("@/assets/logo.png")} />
 
-      <Button />
+      <Button title="Entrar" />
+      {/* <Button
+        title="Voltar"
+        activeOpacity={0.5}
+        onPress={() => console.log("Voltar")}
+      /> */}
     </View>
   )
 }
