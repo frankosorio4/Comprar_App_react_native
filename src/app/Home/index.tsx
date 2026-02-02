@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { View, Image, TouchableOpacity, Text, ScrollView, FlatList } from "react-native"
+import { View, Image, TouchableOpacity, Text, ScrollView, FlatList, Alert } from "react-native"
 
 import { styles } from "./styles"
 
@@ -12,22 +12,37 @@ import { FilterStatus } from "@/Types/FilterStatus"
 
 const FILTER_STATUS: FilterStatus[] = [FilterStatus.PENDING, FilterStatus.DONE]
 
-const ITEMS = [
-  { id: "1", status: FilterStatus.DONE, description: "Cafe" },
-  { id: "2", status: FilterStatus.PENDING, description: "Azucar" },
-  { id: "3", status: FilterStatus.DONE, description: "Leche" },
-]
-
 export default function Home() {
   const [filter, setFilter] = useState(FilterStatus.PENDING)
+  const [description, setDescription] = useState("")
+  const [items, setItems] = useState<any>([])
+
+  function handleAddItem() {
+    if (!description.trim()) {
+      return Alert.alert("Adicionar", "Informe a descrição da compra")
+    }
+
+    const newItem = {
+      id: Math.random().toString(36).substring(2),
+      description,
+      status: FilterStatus.PENDING,
+    }
+
+    console.log(newItem)
+
+    setItems((oldItems) => [...oldItems, newItem])
+  }
 
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require("@/assets/logo.png")} />
 
       <View style={styles.form}>
-        <Input placeholder="O que vai comprar?" />
-        <Button title="Entrar" />
+        <Input
+          placeholder="O que vai comprar?"
+          onChangeText={setDescription}
+        />
+        <Button title="Add" onPress={handleAddItem} />
       </View>
 
       <View style={styles.content}>
@@ -48,7 +63,7 @@ export default function Home() {
         </View>
 
         <FlatList
-          data={ITEMS}
+          data={items}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Item
