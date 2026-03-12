@@ -1,93 +1,106 @@
-# 🛒 Comprar App - Shopping List Manager
+# 🛒 Comprar — Shopping List App
 
-A mobile application built with **React Native** and **Expo** designed to help users manage their shopping lists efficiently. The app allows users to record items, track their status (**Pending** vs. **Done**), and persist data directly on the device.
+A mobile shopping list manager built with **React Native** and **Expo**. Add items, track their status, and keep your list saved on-device even after closing the app.
 
-> **Note:** This project was developed as part of an exercise for a programming course to practice state management, componentization, and local data persistence in mobile environments.
+> Developed as a practical exercise for a RocketSeat React Native course, covering state management, component architecture, and local data persistence.
 
 ---
 
 ## 📱 Features
 
-- **Add Items:** Quickly record new items to your shopping list.
-- **Status Tracking:** Toggle items between **Pending** and **Done** status.
-- **Persistent Storage:** Data is saved locally on the phone using AsyncStorage, so your list remains even after closing the app.
-- **Filtering:** Filter the view to see only pending items or those already bought.
-- **List Management:** Remove individual items or clear the entire list with a confirmation alert.
-- **Responsive UI:** Styled using TypeScript and optimized for a clean user experience.
+- **Add items** — Quickly record new items to your list
+- **Toggle status** — Mark items as Pending or Purchased with a tap
+- **Filter by status** — Switch between Pending and Purchased views
+- **Persistent storage** — List is saved locally using AsyncStorage and survives app restarts
+- **Delete items** — Remove individual items or clear the entire list (with confirmation)
 
 ---
 
-## 🛠️ Technologies Used
+## 🛠️ Tech Stack
 
-- **React Native** & **Expo**
-- **TypeScript** (for type safety and better developer experience)
-- **Async Storage** - Local device data persistence
-- **Lucide React Native** - Clean, modern iconography
-- **React Native SVG** - Vector graphics rendering
+| Tool | Purpose |
+|---|---|
+| React Native 0.81 + Expo ~54 | Mobile framework |
+| React 19 | UI library |
+| TypeScript (strict) | Type safety |
+| `@react-native-async-storage/async-storage` | Local data persistence |
+| `lucide-react-native` | Icons |
+| `react-native-svg` | SVG rendering support |
 
 ---
 
 ## 📂 Project Structure
 
-    Comprar_App_react_native
-    ├── src
-    │   ├── app/Home          # Main screen (Home) logic and styles
-    │   ├── Components        # Reusable UI components (Button, Filter, Item, etc.)
-    │   ├── storage           # AsyncStorage logic (itemStorage.ts)
-    │   ├── Types             # TypeScript interfaces and Enums (FilterStatus)
-    │   └── assets            # Local images and branding
-    ├── index.ts              # App entry point
-    └── app.json              # Expo configuration
+```
+comprar/
+├── src/
+│   ├── app/
+│   │   └── Home/               # Main screen — logic and styles
+│   ├── Components/
+│   │   ├── Button/             # Reusable button
+│   │   ├── Filter/             # Pending / Purchased toggle tabs
+│   │   ├── Input/              # Styled text input
+│   │   ├── Item/               # List row with status icon and delete button
+│   │   └── StatusIcon/         # CircleCheck (done) / CircleDashed (pending) icon
+│   ├── storage/
+│   │   └── itemStorage.ts      # All AsyncStorage CRUD operations
+│   ├── Types/
+│   │   └── FilterStatus.ts     # Enum: PENDING | DONE
+│   └── assets/                 # Logo images
+├── index.ts                    # App entry point
+└── app.json                    # Expo configuration
+```
+
 ---
 
 ## 🚀 Getting Started
 
-To run this project on your local machine or physical device, follow the steps below.
+### Prerequisites
 
-### 1️⃣ Prerequisites
+- [Node.js](https://nodejs.org/) installed
+- [Expo Go](https://expo.dev/client) app on your phone *(or a configured emulator)*
 
-- **Node.js** installed on your machine  
-- **Expo Go** app installed on your phone *(or a mobile emulator set up)*
+### Install & Run
 
-### 2️⃣ Installation
+```bash
+# Install dependencies
+npm install
 
-Navigate to the project folder and install the dependencies:
+# Start the Expo dev server
+npx expo start
+```
 
-    npm install
+Scan the QR code with **Expo Go** (Android) or the **Camera app** (iOS).
 
-### 3️⃣ Run the App
+To run directly on a platform:
 
-Start the Expo development server:
-
-    npx expo start
-
-Scan the QR code displayed in your terminal using:
-- **Expo Go** app (Android)
-- **Camera** app (iOS)
-
----
-
-## 💾 Storage Logic
-
-The app utilizes `@react-native-async-storage/async-storage` to ensure data persistence.  
-The logic is centralized in:
-
-    src/storage/itemStorage.ts
-
-### Core Operations
-
-- **addItem** - Saves new item objects to device memory
-- **getByStatus** - Retrieves and filters data based on item state (**Pending / Done**)
-- **toggleStatus** - Dynamically updates item status
-- **clearItems** - Wipes the local database when requested
+```bash
+npm run android
+npm run ios
+```
 
 ---
 
-## 🎓 Course Exercise
+## 💾 Storage API
 
-This application was created as a practical exercise to demonstrate:
+All persistence logic lives in `src/storage/itemStorage.ts`, using `@react-native-async-storage/async-storage` under the key `@comprar:items`.
 
-- React Hooks (`useState`, `useEffect`)
-- Efficient list rendering with `FlatList`
-- Asynchronous JavaScript (`async / await`) for storage operations
-- Component-based architecture and custom styling in React Native
+| Function | Description |
+|---|---|
+| `get()` | Returns all saved items |
+| `getByStatus(status)` | Returns items filtered by `PENDING` or `DONE` |
+| `addItem(newItem)` | Appends a new item and saves the updated list |
+| `removeItem(id)` | Removes a specific item by ID |
+| `clearItems()` | Wipes the entire list from storage |
+| `toggleStatus(id)` | Flips an item's status between `PENDING` and `DONE` |
+
+---
+
+## 🎓 Concepts Practiced
+
+- `useState` and `useEffect` hooks
+- Async/await with `AsyncStorage`
+- `FlatList` for performant list rendering
+- Component-based architecture with typed props
+- TypeScript path aliases (`@/` → `src/`)
+- Branch-based Git workflow (`main` → `develop` → feature branches)
